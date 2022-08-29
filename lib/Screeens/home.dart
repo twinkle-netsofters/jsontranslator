@@ -32,8 +32,8 @@ class _HomeState extends State<Home> {
   // static JsonEncoder encoder = JsonEncoder.withIndent('  ');
   Map<String, String> translatedJson = {};
   List<String> langCode = [
-    'aff',
-    'sqq',
+    'af',
+    'sq',
     'am',
     'ar',
     'hy',
