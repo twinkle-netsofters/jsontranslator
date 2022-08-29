@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
   String language1 = Translations.languages.first;
   GoogleTranslator translator = GoogleTranslator();
   String out = "";
+  String error = '';
   final lang = TextEditingController();
   final lang1 = TextEditingController();
   final translatedtextC = TextEditingController();
@@ -263,6 +264,7 @@ class _HomeState extends State<Home> {
       decodedJson = json.decode(jsonString) as Map<String, dynamic>;
       decodedSucceeded = true;
     } on FormatException catch (e) {
+      error = "The Provided String is not valid JSON";
       print('The Provided String is not valid JSON');
     }
 
@@ -328,6 +330,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              cursorColor: Colors.white,
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.white),
                                 minLines: 400,
@@ -418,6 +421,7 @@ class _HomeState extends State<Home> {
                                 width: MediaQuery.of(context).size.width,
                                 color: Colors.blueGrey,
                                 child: TextField(
+                                  cursorColor: Colors.white,
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.white,
