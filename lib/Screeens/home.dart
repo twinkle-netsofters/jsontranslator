@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:jsontranslator/utils/translations.dart';
 import 'package:jsontranslator/widgets/droppedfile.dart';
@@ -29,6 +31,7 @@ class _HomeState extends State<Home> {
   String dropdownValue = 'One';
   final GlobalKey<FormState> _changePwdKey = GlobalKey<FormState>();
   var decodedJson;
+  String? jsonData;
   // static JsonDecoder decoder = JsonDecoder();
   // static JsonEncoder encoder = JsonEncoder.withIndent('  ');
   Map<String, String> translatedJson = {};
@@ -247,16 +250,7 @@ class _HomeState extends State<Home> {
 
   @override
   void dropdownCallBack() {
-    // var prettyString = JsonEncoder.withIndent('  ').convert(object);
-
-    // print(prettyString);
-    // String preetyJson(dynamic json) {
-    //   // var spaces = ' '*4;
-    //   var encoder = JsonEncoder.withIndent(',');
-    //   return encoder.convert(json);
-    // };
-
-    print(currentselLangCode + "+++-----");
+     print(currentselLangCode + "+++-----");
     var jsonString = lang.text;
     bool decodedSucceeded = false;
 
@@ -264,7 +258,6 @@ class _HomeState extends State<Home> {
       decodedJson = json.decode(jsonString) as Map<String, dynamic>;
       decodedSucceeded = true;
     } on FormatException catch (e) {
-      error = "The Provided String is not valid JSON";
       print('The Provided String is not valid JSON');
     }
 
@@ -277,13 +270,17 @@ class _HomeState extends State<Home> {
           var keyyy;
           out = output.toString();
 
-          keyyy = "\"${key.toString()}\"";
+          keyyy = "${key.toString()}";
 
           translatedJson[keyyy.toString()] =
-              "\"${out.toString()}\"" + "\n"; //out;
+              "${out.toString()}" ; //out;
         });
+        // jsonData= '$translatedJson';
+       //  var object = json.decode(jsonData.toString());
+         var preetyString = JsonEncoder.withIndent(' ').convert(translatedJson);
 
-        translatedtextC.text = translatedJson.toString();
+        translatedtextC.text = preetyString.toString();
+
 
         //    print(translatedJson.toString() + "oooooooo");
         //    print('value pair-->' + out.toString() + key.toString());
@@ -330,6 +327,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              enableInteractiveSelection: true,
                               cursorColor: Colors.white,
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.white),
@@ -421,6 +419,10 @@ class _HomeState extends State<Home> {
                                 width: MediaQuery.of(context).size.width,
                                 color: Colors.blueGrey,
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none
+                                  ),
+
                                   cursorColor: Colors.white,
                                   style: TextStyle(
                                     fontSize: 12,
@@ -589,13 +591,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // String? prettyPrintJson(String input) {
-  //   const JsonDecoder decoder = JsonDecoder();
-  //   const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-  //   final dynamic object = decoder.convert(input);
-  //   final dynamic prettyString = encoder.convert(object);
-  //   prettyString.split('\n').forEach((dynamic element) => print(element));
-  // }
+  String? prettyPrintJson(String input) {
+    const JsonDecoder decoder = JsonDecoder();
+    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    final dynamic object = decoder.convert(input);
+    final dynamic prettyString = encoder.convert(object);
+    prettyString.split('\n').forEach((dynamic element) => print(element));
+  }
   Future<String?> getLanguageCode(String langcode) async {
     print(langcode.toString() + "curr language code");
     return await langcode.toString();
